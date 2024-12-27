@@ -3,226 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع الأفلام</title>
+    <title>تشغيل فيديوهات متزامنة</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #2196F3; /* اللون الأزرق */
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+            background-color: red; /* خلفية حمراء */
+            color: white; /* لون النص */
         }
         h1 {
-            font-size: 36px;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
-        .search-container {
-            margin: 20px 0;
-        }
-        .search-input {
-            padding: 10px;
-            width: 300px;
-            border: none;
-            border-radius: 5px;
-            outline: none;
-        }
-        .search-button {
-            padding: 10px 15px;
-            background-color: #ff4081;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        .search-button:hover {
-            background-color: #e91e63;
-        }
-        .section {
-            margin-bottom: 40px;
-        }
-        .section-title {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        .movie-container {
+        .video-container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
+            flex-direction: column; /* عرض الفيديوهات في عمود */
+            align-items: center;
+            gap: 20px; /* المسافة بين الفيديوهات */
         }
-        .movie {
-            background-color: #1e1e1e;
-            border-radius: 10px;
-            margin: 10px;
-            padding: 15px;
-            width: 200px;
-            text-align: center;
-        }
-        img {
+        video, iframe {
             width: 100%;
-            border-radius: 10px;
-        }
-        .movie-title {
-            font-size: 20px;
+            max-width: 560px; /* يمكنك تعديل الحجم حسب الحاجة */
             margin: 10px 0;
         }
-        .movie-description {
-            font-size: 14px;
-            color: #cccccc;
+        img {
+            max-width: 10%; /* تأكد من تناسب الصورة مع الشاشة */
+            height: auto; /* الحفاظ على النسبة */
+            margin-bottom: 20px; /* مسافة بين الصورة والعنوان */
         }
-        .load-more, .watch-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #ff4081;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none; /* إزالة التسطير من الرابط */
-        }
-        .load-more:hover, .watch-button:hover {
-            background-color: #e91e63;
+        .controls {
+            display: flex;
+            gap: 10px;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>مسلسل حكاية ليلة</h1>
-    <p>ابحث عن الحلقة!</p>
-    <div class="search-container">
-        <input type="text" class="search-input" placeholder="ابحث عن الحلقة ..." oninput="filterMovies()">
-    </div>
-</header>
+    <!-- إضافة صورة محلية -->
+    <img src="logo.jpg" alt="وصف الصورة">
 
-<div class="section">
-    <h2 class="section-title"></h2>
-    <div class="movie-container" id="movieContainer">
-        <div class="movie">
-            <img src="17.jpg" alt="  ">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 17</div>
-            <div class="movie-description">. </div>
-            <a href="https://asinekfs.github.io/17sesone/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 2">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 16</div>
-            <div class="movie-description"> .</div>
-            <a href="https://asinekfs.github.io/16/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 3">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 15</div>
-            <div class="movie-description">.</div>
-            <a href="https://mosalsa132.github.io/15/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 4">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 14</div>
-            <div class="movie-description">.</div>
-            <a href="https://mosalsa132.github.io/14s/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 5">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 13</div>
-            <div class="movie-description">.</div>
-            <a href="https://mosalsa132.github.io/13/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 6">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 12</div>
-            <div class="movie-description">.</div>
-            <a href=" https://mosalsa132.github.io/12/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 2">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 11</div>
-            <div class="movie-description">.</div>
-            <a href="https://mosalsa132.github.io/11/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 2">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 10</div>
-            <div class="movie-description"> .</div>
-            <a href="https://mosalsa132.github.io/10/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 2">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 9</div>
-            <div class="movie-description"> .</div>
-            <a href="https://mosalsa132.github.io/10/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 2">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 8</div>
-            <div class="movie-description"> .</div>
-            <a href=" https://mosalsa132.github.io/8/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 2">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 7</div>
-            <div class="movie-description"> .</div>
-            <a href="https://mosalsa132.github.io/7/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 2">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 6</div>
-            <div class="movie-description"> .</div>
-            <a href="https://mosalsa132.github.io/6/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 2">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 5</div>
-            <div class="movie-description"> .</div>
-            <a href="https://mosalsa132.github.io/5/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 2">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 4</div>
-            <div class="movie-description"> .</div>
-            <a href="https://mosalsa132.github.io/4Ss/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 2">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 3</div>
-            <div class="movie-description"> .</div>
-            <a href="https://mosalsa132.github.io/3/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 2">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 2</div>
-            <div class="movie-description"> .</div>
-            <a href="https://mosalsa132.github.io/2/" class="watch-button">مشاهدة</a>
-        </div>
-        <div class="movie">
-            <img src="17.jpg" alt="فيلم أكشن 2">
-            <div class="movie-title">مسلسل حكاية ليلة الحلقة 1</div>
-            <div class="movie-description"> .</div>
-            <a href="https://mosalsa132.github.io/1/" class="watch-button">مشاهدة</a>
+    <h1>مسلسل حكاية حورية الحلقة 10</h1>
+
+    <div class="video-container">
+        <!-- فيديو MP4 في الأعلى -->
+        <video id="mp4Video" autoplay>
+            <source src="https://firebasestorage.googleapis.com/v0/b/project-2815293220407416835.appspot.com/o/10.12%2Fasali%20S01E15.mp4?alt=media&token=90170d89-80fe-41dc-8fa7-49d711a35e9d" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+        </video>
+<div class="controls">
+            <button id="togglePlay">تشغيل/إيقاف</button>
+            <button id="fullscreen">تكبير الشاشة</button>
         </div>
     </div>
-    <button class="load-more">أضف المزيد</button>
-</div>
+        <!-- تكرار فيديو يوتيوب -->
+        <div class="youtube-videos">
+            <iframe id="youtubeVideo1" src="https://www.youtube.com/embed/x72yVyvOS1Y?enablejsapi=1" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe id="youtubeVideo2" src="https://www.youtube.com/embed/cPmlSbU-HsE?enablejsapi=1" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <!-- يمكن إضافة المزيد من الفيديوهات حسب الحاجة -->
+        </div>
+       
+	   <script>
+        const youtubeVideos = document.querySelectorAll('iframe[id^="youtubeVideo"]');
+        const mp4Video = document.getElementById('mp4Video');
+        const togglePlayButton = document.getElementById('togglePlay');
+        const fullscreenButton = document.getElementById('fullscreen');
 
-<script>
-    function filterMovies() {
-        const input = document.querySelector('.search-input').value.toLowerCase();
-        const movies = document.querySelectorAll('.movie');
-        
-        movies.forEach(movie => {
-            const title = movie.querySelector('.movie-title').innerText.toLowerCase();
-            if (title.includes(input)) {
-                movie.style.display = 'block';
+        // إضافة listener لتشغيل الفيديوهات معًا
+        mp4Video.addEventListener('play', () => {
+            youtubeVideos.forEach(video => {
+                video.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            });
+        });
+
+        mp4Video.addEventListener('pause', () => {
+            youtubeVideos.forEach(video => {
+                video.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            });
+        });
+
+        // تشغيل الفيديو MP4 عند تشغيل الفيديو من يوتيوب
+        function onYouTubePlayerAPIReady() {
+            youtubeVideos.forEach((video) => {
+                const player = new YT.Player(video.id, {
+                    events: {
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            });
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                mp4Video.play();
+            } else if (event.data === YT.PlayerState.PAUSED) {
+                mp4Video.pause();
+            }
+        }
+
+        togglePlayButton.addEventListener('click', () => {
+            if (mp4Video.paused) {
+                mp4Video.play();
             } else {
-                movie.style.display = 'none';
+                mp4Video.pause();
             }
         });
-    }
-</script>
+
+        fullscreenButton.addEventListener('click', () => {
+            if (mp4Video.requestFullscreen) {
+                mp4Video.requestFullscreen();
+            } else if (mp4Video.mozRequestFullScreen) { // Firefox
+                mp4Video.mozRequestFullScreen();
+            } else if (mp4Video.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                mp4Video.webkitRequestFullscreen();
+            } else if (mp4Video.msRequestFullscreen) { // IE/Edge
+                mp4Video.msRequestFullscreen();
+            }
+        });
+
+        // إضافة مكتبة يوتيوب API
+        const script = document.createElement('script');
+        script.src = "https://www.youtube.com/iframe_api";
+        document.body.appendChild(script);
+    </script>
 
 </body>
 </html>
