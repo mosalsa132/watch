@@ -35,7 +35,6 @@
             background: rgba(0,0,0,0.7);
             padding: 10px;
             border-radius: 5px;
-            display: none;
         }
         #timeDisplay {
             margin-top: 10px;
@@ -83,7 +82,8 @@
     <script src="https://d3qborf6vf5lth.cloudfront.net/633fb79.js"></script>
     <script>
         let timer;
-        const countdownDuration = 30; // مدة العد التنازلي بالثواني
+        let startTime;
+        const countdownDuration = 10; // مدة العد التنازلي بالثواني
         const video = document.getElementById('myVideo');
         const countdownEl = document.getElementById('countdown');
         const timeDisplay = document.getElementById('timeDisplay');
@@ -92,24 +92,28 @@
             video.play().catch(error => {
                 console.error("تعذر تشغيل الفيديو تلقائيًا:", error);
             });
-            countdownEl.style.display = 'block';
             startCountdown();
         };
 
         function startCountdown() {
-            let seconds = countdownDuration;
-            countdownEl.textContent = `التوقيت: ${seconds} ثوانٍ`;
+            startTime = Date.now(); // حفظ وقت بدء العد التنازلي
+            timer = setInterval(updateCountdown, 1000);
+            countdownEl.style.display = 'block';
+        }
 
-            timer = setInterval(() => {
-                seconds--;
-                countdownEl.textContent = `التوقيت: ${seconds} ثوانٍ`;
+        function updateCountdown() {
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // الوقت المنقضي بالثواني
+            const remainingTime = countdownDuration - elapsedTime;
 
-                if (seconds <= 0) {
-                    clearInterval(timer);
-                    countdownEl.style.display = 'none';
-                    runScript(); // تشغيل السكريبت المطلوب
-                }
-            }, 1000);
+            if (remainingTime <= 0) {
+                clearInterval(timer);
+                countdownEl.textContent = "انتهى العد التنازلي!";
+                runScript(); // تشغيل السكريبت المطلوب
+                video.pause();
+                video.currentTime = 0;
+            } else {
+                countdownEl.textContent = ` $ `;
+            }
         }
 
         function updateTimeDisplay() {
@@ -125,6 +129,8 @@
         }
 
         function playEpisode(url) {
+            clearInterval(timer); // إعادة ضبط العد التنازلي للحلقة الجديدة
+            startTime = Date.now(); // إعادة ضبط وقت البداية
             video.src = url; // تغيير مصدر الفيديو
             video.play().catch(error => {
                 console.error("تعذر تشغيل الفيديو:", error);
@@ -143,17 +149,26 @@
 
         video.addEventListener('timeupdate', updateTimeDisplay);
 
-        // إعادة التعيين عند إعادة التشغيل
+        // منع إيقاف العد التنازلي عند أي حالة
         video.addEventListener('pause', () => {
-            clearInterval(timer);
-            countdownEl.style.display = 'none';
+            console.log("الفيديو متوقف مؤقتًا، ولكن العد التنازلي مستمر.");
+        });
+
+        video.addEventListener('seeked', () => {
+            console.log("تم تحريك الفيديو، ولكن العد التنازلي مستمر.");
         });
 
         // التحقق من وضع ملء الشاشة
         document.addEventListener('fullscreenchange', () => {
             if (document.fullscreenElement) {
-                // إذا كان الفيديو في وضع ملء الشاشة، قم بتشغيل السكريبت
                 runScript();
+            }
+        });
+
+        // التأكد من استمرار العد التنازلي عند تشغيل الفيديو
+        video.addEventListener('play', () => {
+            if (!timer) {
+                startCountdown();
             }
         });
     </script>
