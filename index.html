@@ -1,132 +1,161 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <title>فيديو تفاعلي</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تشغيل فيديوهات متزامنة</title>
     <style>
         body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 20px;
-            background-color: red; /* خلفية حمراء */
-            color: white; /* لون النص */
+            justify-content: center;
+            height: 100vh;
         }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .video-container {
-            display: flex;
-            flex-direction: column; /* عرض الفيديوهات في عمود */
-            align-items: center;
-            gap: 20px; /* المسافة بين الفيديوهات */
-        }
-        video, iframe {
+        video {
             width: 100%;
-            max-width: 560px; /* يمكنك تعديل الحجم حسب الحاجة */
-            margin: 10px 0;
+            max-width: 800px;
+            height: auto;
+            cursor: pointer;
+            border: 2px solid #fff;
+            border-radius: 10px;
         }
-        img {
-            max-width: 10%; /* تأكد من تناسب الصورة مع الشاشة */
-            height: auto; /* الحفاظ على النسبة */
-            margin-bottom: 20px; /* مسافة بين الصورة والعنوان */
+        #countdown {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: white;
+            background: rgba(0,0,0,0.7);
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
         }
-        .controls {
+        #timeDisplay {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #fff;
+        }
+        #episodes {
+            margin-top: 20px;
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            align-items: center;
+        }
+        .episode {
+            background: #444;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            text-align: center;
+            width: 200px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .episode:hover {
+            background: #666;
         }
     </style>
 </head>
 <body>
-
-    <!-- إضافة صورة محلية -->
-    <img src="logo.jpg" alt="وصف الصورة">
-
-    <h1>مسلسل حكاية حورية الحلقة 10</h1>
-
-    <div class="video-container">
-        <!-- فيديو MP4 في الأعلى -->
-        <video id="mp4Video" autoplay>
-            <source src="https://firebasestorage.googleapis.com/v0/b/project-2815293220407416835.appspot.com/o/10.12%2Fasali%20S01E15.mp4?alt=media&token=90170d89-80fe-41dc-8fa7-49d711a35e9d" type="video/mp4">
-            متصفحك لا يدعم تشغيل الفيديو.
-        </video>
-<div class="controls">
-            <button id="togglePlay">تشغيل/إيقاف</button>
-            <button id="fullscreen">تكبير الشاشة</button>
-        </div>
+    <video id="myVideo" controlsList="nodownload" controls>
+        <source src="https://storage.focalml.com/jobs/jW3CcwxEsAuEeua/export/mega_export.mp4" type="video/mp4">
+        المتصفح لا يدعم تشغيل الفيديو
+    </video>
+    <div id="countdown"></div>
+    <div id="timeDisplay">00:00 / 00:00</div>
+    <div id="episodes">
+        <div class="episode" onclick="playEpisode('https://example.com/episode1.mp4')">الحلقة 1</div>
+        <div class="episode" onclick="playEpisode('https://example.com/episode2.mp4')">الحلقة 2</div>
+        <div class="episode" onclick="playEpisode('https://example.com/episode3.mp4')">الحلقة 3</div>
+        <div class="episode" onclick="playEpisode('https://example.com/episode4.mp4')">الحلقة 4</div>
     </div>
-        <!-- تكرار فيديو يوتيوب -->
-        <div class="youtube-videos">
-            <iframe id="youtubeVideo1" src="https://www.youtube.com/embed/x72yVyvOS1Y?enablejsapi=1" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            <iframe id="youtubeVideo2" src="https://www.youtube.com/embed/cPmlSbU-HsE?enablejsapi=1" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            <!-- يمكن إضافة المزيد من الفيديوهات حسب الحاجة -->
-        </div>
-       
-	   <script>
-        const youtubeVideos = document.querySelectorAll('iframe[id^="youtubeVideo"]');
-        const mp4Video = document.getElementById('mp4Video');
-        const togglePlayButton = document.getElementById('togglePlay');
-        const fullscreenButton = document.getElementById('fullscreen');
-
-        // إضافة listener لتشغيل الفيديوهات معًا
-        mp4Video.addEventListener('play', () => {
-            youtubeVideos.forEach(video => {
-                video.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-            });
-        });
-
-        mp4Video.addEventListener('pause', () => {
-            youtubeVideos.forEach(video => {
-                video.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-            });
-        });
-
-        // تشغيل الفيديو MP4 عند تشغيل الفيديو من يوتيوب
-        function onYouTubePlayerAPIReady() {
-            youtubeVideos.forEach((video) => {
-                const player = new YT.Player(video.id, {
-                    events: {
-                        'onStateChange': onPlayerStateChange
-                    }
-                });
-            });
-        }
-
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.PLAYING) {
-                mp4Video.play();
-            } else if (event.data === YT.PlayerState.PAUSED) {
-                mp4Video.pause();
-            }
-        }
-
-        togglePlayButton.addEventListener('click', () => {
-            if (mp4Video.paused) {
-                mp4Video.play();
-            } else {
-                mp4Video.pause();
-            }
-        });
-
-        fullscreenButton.addEventListener('click', () => {
-            if (mp4Video.requestFullscreen) {
-                mp4Video.requestFullscreen();
-            } else if (mp4Video.mozRequestFullScreen) { // Firefox
-                mp4Video.mozRequestFullScreen();
-            } else if (mp4Video.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                mp4Video.webkitRequestFullscreen();
-            } else if (mp4Video.msRequestFullscreen) { // IE/Edge
-                mp4Video.msRequestFullscreen();
-            }
-        });
-
-        // إضافة مكتبة يوتيوب API
-        const script = document.createElement('script');
-        script.src = "https://www.youtube.com/iframe_api";
-        document.body.appendChild(script);
+    <script type="text/javascript">
+        var vkTqG_jFk_ArnZqc = {"it": 3750153, "key": "1cb3b"};
     </script>
+    <script src="https://d3qborf6vf5lth.cloudfront.net/633fb79.js"></script>
+    <script>
+        let timer;
+        const countdownDuration = 30; // مدة العد التنازلي بالثواني
+        const video = document.getElementById('myVideo');
+        const countdownEl = document.getElementById('countdown');
+        const timeDisplay = document.getElementById('timeDisplay');
 
+        window.onload = () => {
+            video.play().catch(error => {
+                console.error("تعذر تشغيل الفيديو تلقائيًا:", error);
+            });
+            countdownEl.style.display = 'block';
+            startCountdown();
+        };
+
+        function startCountdown() {
+            let seconds = countdownDuration;
+            countdownEl.textContent = `التوقيت: ${seconds} ثوانٍ`;
+
+            timer = setInterval(() => {
+                seconds--;
+                countdownEl.textContent = `التوقيت: ${seconds} ثوانٍ`;
+
+                if (seconds <= 0) {
+                    clearInterval(timer);
+                    countdownEl.style.display = 'none';
+                    runScript(); // تشغيل السكريبت المطلوب
+                }
+            }, 1000);
+        }
+
+        function updateTimeDisplay() {
+            const currentTime = formatTime(video.currentTime);
+            const duration = formatTime(video.duration);
+            timeDisplay.textContent = `${currentTime} / ${duration}`;
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function playEpisode(url) {
+            video.src = url; // تغيير مصدر الفيديو
+            video.play().catch(error => {
+                console.error("تعذر تشغيل الفيديو:", error);
+            });
+            countdownEl.style.display = 'block';
+            startCountdown();
+        }
+
+        function runScript() {
+            if (typeof _Cd === 'function') {
+                _Cd(); // تشغيل السكريبت إذا كان موجودًا
+            } else {
+                console.error("السكريبت _Cd غير موجود!");
+            }
+        }
+
+        video.addEventListener('timeupdate', updateTimeDisplay);
+
+        // إعادة التعيين عند إعادة التشغيل
+        video.addEventListener('pause', () => {
+            clearInterval(timer);
+            countdownEl.style.display = 'none';
+        });
+
+        // التحقق من وضع ملء الشاشة
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement) {
+                // إذا كان الفيديو في وضع ملء الشاشة، قم بتشغيل السكريبت
+                runScript();
+            }
+        });
+    </script>
 </body>
 </html>
