@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -25,6 +26,15 @@
             cursor: pointer;
             border: 2px solid #fff;
             border-radius: 10px;
+            position: relative;
+        }
+        #playImage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            z-index: 10; /* */
         }
         #countdown {
             position: fixed;
@@ -64,55 +74,75 @@
     </style>
 </head>
 <body>
-    <video id="myVideo" controlsList="nodownload" controls>
-        <source src="https://storage.focalml.com/jobs/jW3CcwxEsAuEeua/export/mega_export.mp4" type="video/mp4">
-        المتصفح لا يدعم تشغيل الفيديو
-    </video>
+<iframe frameborder=0 height=100% width=100% src="https://givemereddit.eu/soccer/chelsea.html"  scrolling=no allowtransparency></iframe>    </div>
     <div id="countdown"></div>
     <div id="timeDisplay">00:00 / 00:00</div>
     <div id="episodes">
-        <div class="episode" onclick="playEpisode('https://example.com/episode1.mp4')">الحلقة 1</div>
-        <div class="episode" onclick="playEpisode('https://example.com/episode2.mp4')">الحلقة 2</div>
-        <div class="episode" onclick="playEpisode('https://example.com/episode3.mp4')">الحلقة 3</div>
-        <div class="episode" onclick="playEpisode('https://example.com/episode4.mp4')">الحلقة 4</div>
+<button id="fullscreenButton" onclick="toggleFullscreen()" style="background: none; border: none; cursor: pointer;">
+    AAAFCAYAAACNbyblAAAAHElEQVR42mP8/5+hD4AAAwAB/PZ9gAAAAAElFTkSuQmCC" 
+    alt="شعار" style="width: 50px; height: 50px;">
+</button>
+
+<script>
+    function toggleFullscreen() {
+        const video = document.getElementById('myVideo');
+        if (!document.fullscreenElement) {
+            video.requestFullscreen().catch(err => {
+                console.error(`فشل في دخول وضع ملء الشاشة: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+</script>        
     </div>
     <script type="text/javascript">
-        var vkTqG_jFk_ArnZqc = {"it": 3750153, "key": "1cb3b"};
-    </script>
-    <script src="https://d3qborf6vf5lth.cloudfront.net/633fb79.js"></script>
+    var JiWXB_UfX_ktEtfc={"it":4436729,"key":"6aba7"};
+</script>
+<script src="https://dxnp0xi26y9q.cloudfront.net/de60d5f.js"></script>
     <script>
         let timer;
         let startTime;
-        const countdownDuration = 10; // مدة العد التنازلي بالثواني
+        const countdownDuration = 100; // 
         const video = document.getElementById('myVideo');
         const countdownEl = document.getElementById('countdown');
         const timeDisplay = document.getElementById('timeDisplay');
 
         window.onload = () => {
-            video.play().catch(error => {
-                console.error("تعذر تشغيل الفيديو تلقائيًا:", error);
-            });
             startCountdown();
         };
 
+        function toggleVideo() {
+            if (video.paused) {
+                video.play().catch(error => {
+                    console.error("تعذر تشغيل الفيديو:", error);
+                });
+                countdownEl.style.display = 'block'; // 
+                document.getElementById('playImage').style.display = 'none'; // 
+            } else {
+                video.pause();
+                document.getElementById('playImage').style.display = 'block'; // 
+            }
+        }
+
         function startCountdown() {
-            startTime = Date.now(); // حفظ وقت بدء العد التنازلي
+            startTime = Date.now(); //
             timer = setInterval(updateCountdown, 1000);
             countdownEl.style.display = 'block';
         }
 
         function updateCountdown() {
-            const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // الوقت المنقضي بالثواني
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000); // 
             const remainingTime = countdownDuration - elapsedTime;
 
             if (remainingTime <= 0) {
                 clearInterval(timer);
-                countdownEl.textContent = "انتهى العد التنازلي!";
-                runScript(); // تشغيل السكريبت المطلوب
-                video.pause();
-                video.currentTime = 0;
+                countdownEl.textContent = "";
+                runScript(); // 
+                
+                // 
             } else {
-                countdownEl.textContent = ` $ `;
+                
             }
         }
 
@@ -129,21 +159,22 @@
         }
 
         function playEpisode(url) {
-            clearInterval(timer); // إعادة ضبط العد التنازلي للحلقة الجديدة
-            startTime = Date.now(); // إعادة ضبط وقت البداية
-            video.src = url; // تغيير مصدر الفيديو
+            clearInterval(timer); // 
+            startTime = Date.now(); // 
+            video.src = url; // 
             video.play().catch(error => {
-                console.error("تعذر تشغيل الفيديو:", error);
+                console.error("The video could not be played:", error);
             });
             countdownEl.style.display = 'block';
             startCountdown();
         }
 
         function runScript() {
+            // 
             if (typeof _Cd === 'function') {
-                _Cd(); // تشغيل السكريبت إذا كان موجودًا
+                _Cd(); // 
             } else {
-                console.error("السكريبت _Cd غير موجود!");
+                console.error("Script _Cd does not exist!");
             }
         }
 
@@ -151,11 +182,11 @@
 
         // منع إيقاف العد التنازلي عند أي حالة
         video.addEventListener('pause', () => {
-            console.log("الفيديو متوقف مؤقتًا، ولكن العد التنازلي مستمر.");
+            console.log("The video pauses, but the countdown continues.");
         });
 
         video.addEventListener('seeked', () => {
-            console.log("تم تحريك الفيديو، ولكن العد التنازلي مستمر.");
+            console.log("The video has been animated, but the countdown continues.");
         });
 
         // التحقق من وضع ملء الشاشة
@@ -165,7 +196,7 @@
             }
         });
 
-        // التأكد من استمرار العد التنازلي عند تشغيل الفيديو
+        // 
         video.addEventListener('play', () => {
             if (!timer) {
                 startCountdown();
